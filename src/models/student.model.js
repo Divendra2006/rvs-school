@@ -50,7 +50,7 @@ studentSchema.methods.isPasswordCorrect = async function(password){
     console.log("provided password",password);
     console.log("Stored password Hash",this.password)
     if (!this.password) {
-        throw new Error("Hashed password is missing");
+        throw new ApiError("Hashed password is missing");
     }
     return await bcrypt.compare(password,this.password)
 }
