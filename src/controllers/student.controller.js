@@ -123,7 +123,7 @@ const loginStudent = asyncHandler(async(req,res)=>{
 
 const logoutStudent = asyncHandler(async(req,res)=>{
    await Student.findByIdAndUpdate(
-      req.user?._id,
+      req.student?._id,
       {
          $unset:{
             refreshToken:1
@@ -228,7 +228,7 @@ const changeCurrentPssword = asyncHandler(async(req,res)=>{
 
 const getCurrentStudent = asyncHandler(async(req,res)=>{
    return res.status(200)
-   .json(200,req.user,"current user fetched successfully")
+   .json(200,req.student,"current student fetched successfully")
 }) 
 
 const updateAccountDetails = asyncHandler(async(req,res)=>{

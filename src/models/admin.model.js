@@ -26,21 +26,35 @@ const adminSchema = new mongoose.Schema({
     }
 })
 
-adminSchema.pre("save",async function(next){
-    if(!this.isModified("password"))
-        return next(); 
-    this.password= await bcrypt.hash(this.password,10)
-    next()
-})
 
-adminSchema.methods.isPasswordCorrect = async function(password){
-    console.log("provided password",password);
-    console.log("Stored password Hash",this.password)
-    if (!this.password) {
-        throw new ApiError("Hashed password is missing");
+adminSchema.pre("save", async function (next) {
+    try {
+      if (!this.isModified("password")) {
+        return next();
+      }
+  
+     
+      this.password = await bcrypt.hash(this.password, 10);
+      next();
+    } catch (error) {
+      next(error);
     }
-    return await bcrypt.compare(password,this.password)
-}
+  });
+  
+ 
+  adminSchema.methods.isPasswordCorrect = async function (password) {
+    // console.log("Provided password:", password);
+    // console.log("Stored password hash:", this.password);
+  
+
+    if (!this.password) {
+      throw new ApiError("Hashed password is missing");
+    }
+  
+   
+    return await bcrypt.compare(password, this.password);
+  };
+  
 
 adminSchema.methods.generateAccessToken = function(){
     return jwt.sign({
