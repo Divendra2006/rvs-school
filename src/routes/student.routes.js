@@ -19,7 +19,7 @@ router.route("/login").post(loginStudent)
 router.route("/logout").post(verifyJWT,logoutStudent)
 router.route("/refresh-token").post(refreshAccessToken)
 router.route("/change-password").post(verifyJWT,changeCurrentPssword)
-router.route("/current-student").post(verifyJWT,getCurrentStudent)
+router.route("/current-student").get(verifyJWT,getCurrentStudent)
 router.route("/update-account").patch(verifyJWT,updateAccountDetails)
 
 

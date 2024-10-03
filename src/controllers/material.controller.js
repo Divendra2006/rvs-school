@@ -16,7 +16,6 @@ const sendAllMaterials = asyncHandler(async(req,res)=>{
     }
 
     const fileLocalPath = req.file?.path
-    // console.log("abcd",req.files)
 
     if(!fileLocalPath){
         throw new ApiError(400,"file is required");
@@ -52,7 +51,12 @@ const getAllMaterials = asyncHandler(async(req,res)=>{
     const {Class,subject} = req.query;
     try {
         const materials = await Material.find({Class,subject})
-        return res.status(200).json(materials)
+        console.log("Querying for materials:", { Class, subject });
+        if (materials.length === 0) {
+            return res.status(404).json({ message: 'No material found for the selected class and subject.' });
+        }
+        return res.status(200).json(materials.map(material => material.file));
+        
     } catch (error) {
         throw new ApiError(500,"get all materials faied")
         

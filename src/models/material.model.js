@@ -11,7 +11,7 @@ const materialSchema = new mongoose.Schema({
     },
     file:{
         type:String,
-        required:true,
+
     }
 })
 
