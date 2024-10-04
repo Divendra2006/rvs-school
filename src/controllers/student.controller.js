@@ -253,6 +253,22 @@ const updateAccountDetails = asyncHandler(async(req,res)=>{
    return res.status(200).json(new ApiResponse(200,student,"account details updated successfully"))
 })
 
+const deleteStudentAccount = asyncHandler(async(req,res)=>{
+   const {Rollno} = req.body;
+   if(!Rollno){
+      throw new ApiError(400,"Rollno is not present")
+   }
+
+   const deletedStudent = await Student.findOneAndDelete({Rollno});
+   if(!deletedStudent){
+      throw new ApiError(400,"student not found")
+   }
+
+   return res.status(200).json(
+      new ApiResponse(200,  "Student Account deleted Successfully")
+  );
+})
+
 
 export {
    registerStudent,
@@ -262,5 +278,6 @@ export {
    changeCurrentPssword,
    getCurrentStudent,
    updateAccountDetails,
+   deleteStudentAccount,
 
 }

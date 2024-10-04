@@ -9,6 +9,18 @@ const materialSchema = new mongoose.Schema({
        type:String,
        required:true,
     },
+    chapter:{
+       type:String,
+       required:true,
+    },
+    resources:{
+        type:String,
+        required:true,
+    },
+    type:{
+        type:String,
+        required:true,
+    },
     file:{
         type:String,
 

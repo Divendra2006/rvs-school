@@ -216,6 +216,19 @@ const updateAccountDetails = asyncHandler(async(req,res)=>{
     return res.status(200).json(new ApiResponse(200,admin,"account details updated successfully"))
 })
 
+const adminDeleteAccount = asyncHandler(async(req,res)=>{
+    const {email} = req.body;
+    if(!email){
+        throw new ApiError(400,"email is required")
+    };
+     const deletedAdmin =await Admin.findOneAndDelete({email});
+     if(!deletedAdmin){
+        throw new ApiError(400,"Admin is not deleted");
+     }
+
+     return res.status(200).json(new ApiResponse(200,"admin account deleted successfully"))
+})
+
 
 export {
     registerAdmin,
@@ -225,5 +238,6 @@ export {
     changeCurrentPssword,
     getCurrentAdmin,
     updateAccountDetails,
+    adminDeleteAccount,
 
 }

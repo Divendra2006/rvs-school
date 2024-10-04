@@ -9,9 +9,9 @@ const sendAllMaterials = asyncHandler(async(req,res)=>{
     // console.log("Incoming request:", req.body); // Log the body to see Class and subject
     // console.log("Uploaded file:", req.file); //
     
-    const {Class,subject} = req.body;
-    if(!Class && !subject){
-        throw new ApiError(400,"Class and Subject fields are empty");
+    const {Class,subject,chapter,resources,type} = req.body;
+    if(!Class || !subject || !chapter || !resources || !type){
+        throw new ApiError(400,"Class, Subject, chapter, resources ,type fields are empty");
     
     }
 
@@ -32,6 +32,9 @@ const sendAllMaterials = asyncHandler(async(req,res)=>{
     const material = await Material.create({
         Class,
         subject,
+        chapter,
+        resources,
+        type,
         file:file.url
     })
 
@@ -48,12 +51,12 @@ const sendAllMaterials = asyncHandler(async(req,res)=>{
 })
 
 const getAllMaterials = asyncHandler(async(req,res)=>{
-    const {Class,subject} = req.query;
+    const {Class,subject,chapter,resources,type} = req.query;
     try {
-        const materials = await Material.find({Class,subject})
-        console.log("Querying for materials:", { Class, subject });
+        const materials = await Material.find({Class,subject,chapter,resources,type})
+        console.log("Querying for materials:", { Class, subject,chapter,resources,type });
         if (materials.length === 0) {
-            return res.status(404).json({ message: 'No material found for the selected class and subject.' });
+            return res.status(404).json({ message: 'No material found for the selected class,subject,chapter and resources.' });
         }
         return res.status(200).json(materials.map(material => material.file));
         
